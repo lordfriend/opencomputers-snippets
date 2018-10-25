@@ -6,11 +6,11 @@ local robot = require("robot");
 local rs = component.redstone;
 
 local MIN_LEVEL = 2;
-local MAX_LEVEL = 15
+local MAX_LEVEL = 15;
 
-local isRunning = true;
-local current_level = 0;
-local isExecutingTask = false;
+isRunning = true;
+current_level = 0;
+isExecutingTask = false;
 
 -- counter clockwise movement
 -- local function moveCounterClockwise()
@@ -39,17 +39,14 @@ local function startDrainTank()
     end
     local co = coroutine.create(function ()
         isExecutingTask = true;
-        -- moveClockwise();
-        robot.use(sides.bottom);
         -- always drain bucket before get fluid front tank
         for i = 1, 512 do
             if not isRunning or current_level <= MIN_LEVEL then
                 break;
             end
             robot.use(sides.front);
-            robot.use(sides.bottom);
+            robot.useDown();
         end
-        -- moveCounterClockwise();
         isExecutingTask = false;
     end)
     coroutine.resume(co);
@@ -70,6 +67,7 @@ end
 
 function eventHandlers.redstone_changed(address, side, oldValue, newValue, color)
     current_level = newValue;
+    print("current level: ", current_level);
     if newValue >= MAX_LEVEL then
         startDrainTank();
     end
@@ -83,6 +81,7 @@ end
 
 local signalStrength = rs.getInput(sides.right);
 current_level = signalStrength;
+print("initial level: ", current_level);
 if current_level > MAX_LEVEL then
     startDrainTank();
 end
