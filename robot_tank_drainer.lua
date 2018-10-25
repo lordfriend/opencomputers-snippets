@@ -2,7 +2,7 @@ local component = require("component");
 local sides = require("sides");
 local event = require("event");
 local keyboard = require("keyboard");
-local robot = component.robot;
+local robot = require("robot");
 local rs = component.redstone;
 
 local MIN_LEVEL = 2;
@@ -13,25 +13,25 @@ local current_level = 0;
 local isExecutingTask = false;
 
 -- counter clockwise movement
-local function moveCounterClockwise()
-    robot.turn(sides.right);
-    robot.move(sides.front);
-    robot.move(sides.front);
-    robot.turn(sides.left);
-    robot.move(sides.front);
-    robot.move(sides.front);
-    robot.turn(sides.left);
-end
+-- local function moveCounterClockwise()
+--     robot.turnRight();
+--     robot.forward();
+--     robot.forward();
+--     robot.turnLeft();
+--     robot.forward();
+--     robot.forward();
+--     robot.turnLeft();
+-- end
 
-local function moveClockwise()
-    robot.turn(sides.left);
-    robot.move(sides.front);
-    robot.move(sides.front);
-    robot.turn(sides.right);
-    robot.move(sides.front);
-    robot.move(sides.front);
-    robot.move(sides.right);
-end
+-- local function moveClockwise()
+--     robot.turnLeft();
+--     robot.forward();
+--     robot.forward();
+--     robot.turnRight();
+--     robot.forward();
+--     robot.forward();
+--     robot.turnRight();
+-- end
 
 local function startDrainTank()
     if isExecutingTask then
@@ -39,7 +39,7 @@ local function startDrainTank()
     end
     local co = coroutine.create(function ()
         isExecutingTask = true;
-        moveClockwise();
+        -- moveClockwise();
         robot.use(sides.bottom);
         -- always drain bucket before get fluid front tank
         for i = 1, 512 do
@@ -49,10 +49,10 @@ local function startDrainTank()
             robot.use(sides.front);
             robot.use(sides.bottom);
         end
-        moveCounterClockwise();
+        -- moveCounterClockwise();
         isExecutingTask = false;
     end)
-    co.resume();
+    coroutine.resume(co);
 end
 
 local function unknownEvent()
@@ -81,7 +81,7 @@ local function handleEvent(event_name, ...)
     end
 end
 
-local signalStrength = rs.getInput(sides.front);
+local signalStrength = rs.getInput(sides.right);
 current_level = signalStrength;
 if current_level > MAX_LEVEL then
     startDrainTank();
