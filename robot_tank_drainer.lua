@@ -102,6 +102,6 @@ end
 while isRunning do
     handleEvent(event.pull(1));
     if isExecutingTask then
-        coroutine.resume(co);
+        isExecutingTask = coroutine.resume(co);
     end
 end
