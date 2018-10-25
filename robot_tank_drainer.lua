@@ -1,3 +1,16 @@
+--[[
+    A robot which can dump liquids from a Tank of Immersive Engineering.
+
+    To make it work. a robot must have a Tank Upgrade, Internet Card (download and update code), Redstone Card.
+    Deploy position should be:
+    X X X
+    X X P
+    X X X
+      R C
+    This is the first layer of the tank, X is the tank where P is a Redstone Probe Connector, R is the robot which facing the tank, C is a redstone connector set
+    to output mode, R and P should be connected by wire.
+]]
+
 local component = require("component");
 local sides = require("sides");
 local event = require("event");
@@ -37,19 +50,19 @@ local function startDrainTank()
     if isExecutingTask then
         return;
     end
-    local co = coroutine.create(function ()
-        isExecutingTask = true;
+    co = coroutine.create(function ()
         -- always drain bucket before get fluid front tank
         for i = 1, 512 do
+            coroutine.yield(true);
             if not isRunning or current_level <= MIN_LEVEL then
                 break;
             end
             robot.use(sides.front);
             robot.useDown();
         end
-        isExecutingTask = false;
+        return false;
     end)
-    coroutine.resume(co);
+    isExecutingTask = coroutine.resume(co);
 end
 
 local function unknownEvent()
@@ -87,5 +100,8 @@ if current_level > MAX_LEVEL then
 end
 
 while isRunning do
-    handleEvent(event.pull());
+    handleEvent(event.pull(1));
+    if isExecutingTask then
+        coroutine.resume(co);
+    end
 end
