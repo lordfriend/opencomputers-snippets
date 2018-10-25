@@ -9,6 +9,8 @@ local MIN_LEVEL = 2;
 local MAX_LEVEL = 15
 
 local isRunning = true;
+local current_level = 0;
+local isExecutingTask = false;
 
 -- counter clockwise movement
 local function moveCounterClockwise()
@@ -32,16 +34,25 @@ local function moveClockwise()
 end
 
 local function startDrainTank()
-    moveClockwise();
-    robot.use(sides.bottom);
-    -- always drain bucket before get fluid front tank
-    for i = 1, 500 do
-        if not isRunning then
-            break;
-        end
-        robot.use(sides.front);
-        robot.use(sides.bottom);
+    if isExecutingTask then
+        return;
     end
+    local co = coroutine.create(function ()
+        isExecutingTask = true;
+        moveClockwise();
+        robot.use(sides.bottom);
+        -- always drain bucket before get fluid front tank
+        for i = 1, 512 do
+            if not isRunning or current_level <= MIN_LEVEL then
+                break;
+            end
+            robot.use(sides.front);
+            robot.use(sides.bottom);
+        end
+        moveCounterClockwise();
+        isExecutingTask = false;
+    end)
+    co.resume();
 end
 
 local function unknownEvent()
@@ -57,10 +68,10 @@ function eventHandlers.key_up(address, char, code, playerName)
     end
 end
 
-function eventHandlers.red_stone_changed(address, side, oldValue, newValue, color)
-    if newValue > MAX_LEVEL then
+function eventHandlers.redstone_changed(address, side, oldValue, newValue, color)
+    current_level = newValue;
+    if newValue >= MAX_LEVEL then
         startDrainTank();
-        moveCounterClockwise();
     end
 end
 
@@ -68,6 +79,12 @@ local function handleEvent(event_name, ...)
     if event_name then
         eventHandlers[event_name](...);
     end
+end
+
+local signalStrength = rs.getInput(sides.front);
+current_level = signalStrength;
+if current_level > MAX_LEVEL then
+    startDrainTank();
 end
 
 while isRunning do
