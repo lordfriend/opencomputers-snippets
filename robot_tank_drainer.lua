@@ -44,18 +44,32 @@ local function startDrainTank()
     end
 end
 
-local function detectRedstoneSignal()
-    local signal = rs.getOutput(sides.front);
-    if signal > MAX_LEVEL then
+local function unknownEvent()
+    -- dummy event handler that does nothing.
+end
+-- table that holds all event handlers
+-- in case no match can be found returns the dummy function unknownEvent
+local eventHandlers = setmetatable({}, { __index = function() return unknownEvent end});
+
+function eventHandlers.key_up(address, char, code, playerName)
+    if code == keyboard.keys.q then
+        isRunning = false;
+    end
+end
+
+function eventHandlers.red_stone_changed(address, side, oldValue, newValue, color)
+    if newValue > MAX_LEVEL then
         startDrainTank();
         moveCounterClockwise();
     end
 end
 
-while isRunning do
-    detectRedstoneSignal();
-    local _, _, charCode, code, _ = even.pull("key_up", 1);
-    if code == keyboard.keys.q then
-        isRunning = false;
+local function handleEvent(event_name, ...)
+    if event_name then
+        eventHandlers[event_name](...);
     end
+end
+
+while isRunning do
+    handleEvent(event.pull());
 end
