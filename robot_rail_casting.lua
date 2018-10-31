@@ -1,14 +1,16 @@
 local robot = require("robot");
 local inv_ctrl = require("component").inventory_controller;
 local sides = require("sides");
+local event = require("event");
+local keyboard = require("keyboard");
 
 local isRunning = true;
 -- shall wait for 11 seconds because the casting basin need that long time to cast a railcasting
 local WAIT_TIME = 10;
 
 local function getRestStack()
-    local totalSize = inv_ctrl.getInventorySize();
-    assert(totalSize, "not an inventory ahead");
+    local totalSize = inv_ctrl.getInventorySize(sides.front);
+    assert(type(totalSize) == "number", "not an inventory ahead");
     local restStack = 0;
     for i = 1, totalSize do
         local slotInfo = inv_ctrl.getStackInSlot(sides.front, i);
@@ -77,5 +79,6 @@ local function handleEvent(event_name, ...)
 end
 
 while isRunning do
+    doJob();
     handleEvent(event.pull(WAIT_TIME));
 end
