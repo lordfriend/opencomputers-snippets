@@ -1,3 +1,8 @@
+--[[
+    robot use between a casting basin and track roller. this to machine must be put close to each other.
+    upgrade require: inventory upgrade, inventory_controller upgrade, tractor beam upgrade
+]]
+
 local robot = require("robot");
 local inv_ctrl = require("component").inventory_controller;
 local sides = require("sides");
