@@ -9,6 +9,7 @@ local sides = require("sides");
 local event = require("event");
 local keyboard = require("keyboard");
 local tractor = require("component").tractor_beam;
+local computer = require("computer");
 
 local isRunning = true;
 -- shall wait for 11 seconds because the casting basin need that long time to cast a railcasting
@@ -68,6 +69,40 @@ local function doJob()
     end
 end
 
+local function charge()
+    robot.turnLeft();
+    for i = 1, 10 do
+        robot.forward();
+    end
+    robot.turnLeft();
+    robot.forward();
+    robot.turnRight();
+    robot.forward();
+    robot.turnLeft();
+    robot.use(sides.front);
+    robot.turnLeft();
+    robot.forward();
+    robot.turnRight();
+    robot.forward();
+    sleep(30);
+end
+
+local checkEnergy()
+    local energyLevel = computer.energy() / computer.maxEnergy();
+    if energyLevel < 0.1 then
+        charge()
+        -- get back
+        robot.turnAround();
+        robot.forward();
+        robot.forward();
+        robot.turnRight();
+        for i = 1, 10 do
+            robot.forward();
+        end
+        robot.turnLeft();
+    end
+end
+
 local function unknownEvent()
     -- dummy event handler that does nothing.
 end
@@ -89,5 +124,7 @@ end
 
 while isRunning do
     doJob();
-    handleEvent(event.pull(WAIT_TIME));
+    checkEnergy();
+    -- handleEvent(event.pull(WAIT_TIME));
+    handleEvent(event.pull(WAIT_TIME, "key_up"));
 end
