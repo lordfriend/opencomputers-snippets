@@ -52,6 +52,7 @@ local function doJob()
         moveFromCastingBasinToTrackRoller();
         robot.use(sides.front);
         moveFromTrackRollerToCrate();
+    end
 end
 
 local function unknownEvent()
