@@ -8,7 +8,7 @@ local inv_ctrl = require("component").inventory_controller;
 local sides = require("sides");
 local event = require("event");
 local keyboard = require("keyboard");
-local tractor = require("tractor_beam");
+local tractor = require("component").tractor_beam;
 
 local isRunning = true;
 -- shall wait for 11 seconds because the casting basin need that long time to cast a railcasting
