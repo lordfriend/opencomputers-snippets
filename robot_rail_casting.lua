@@ -3,6 +3,7 @@ local inv_ctrl = require("component").inventory_controller;
 local sides = require("sides");
 local event = require("event");
 local keyboard = require("keyboard");
+local tractor = require("tractor_beam");
 
 local isRunning = true;
 -- shall wait for 11 seconds because the casting basin need that long time to cast a railcasting
@@ -53,7 +54,10 @@ local function doJob()
     if restStack > 10 then
         moveFromCrateToCastingBasin();
         robot.useUp(sides.front);
+        -- since the rail casting will drop into ground. we need to pick it up.
+        tractor.suck();
         moveFromCastingBasinToTrackRoller();
+        inv_ctrl.equip();
         robot.use(sides.front);
         moveFromTrackRollerToCrate();
     end
