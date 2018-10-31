@@ -15,6 +15,7 @@ local function getRestStack()
             restStack = restStack + 64;
         else
             restStack = restStack + slotInfo.maxSize - slotInfo.size;
+        end
     end
     return restStack;
 end
