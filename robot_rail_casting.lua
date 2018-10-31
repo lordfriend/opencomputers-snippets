@@ -2,6 +2,7 @@ local robot = require("robot");
 local inv_ctrl = require("component").inventory_controller;
 local sides = require("sides");
 
+local isRunning = true;
 -- shall wait for 11 seconds because the casting basin need that long time to cast a railcasting
 local WAIT_TIME = 10;
 
