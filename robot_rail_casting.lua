@@ -10,6 +10,7 @@ local event = require("event");
 local keyboard = require("keyboard");
 local tractor = require("component").tractor_beam;
 local computer = require("computer");
+local os = require("os");
 
 local isRunning = true;
 -- shall wait for 11 seconds because the casting basin need that long time to cast a railcasting
@@ -84,7 +85,7 @@ local function charge()
     robot.forward();
     robot.turnRight();
     robot.forward();
-    sleep(30);
+    os.sleep(30);
 end
 
 local checkEnergy()
