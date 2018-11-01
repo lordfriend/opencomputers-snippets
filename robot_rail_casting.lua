@@ -88,7 +88,7 @@ local function charge()
     os.sleep(30);
 end
 
-local checkEnergy()
+local function checkEnergy()
     local energyLevel = computer.energy() / computer.maxEnergy();
     if energyLevel < 0.1 then
         charge()
