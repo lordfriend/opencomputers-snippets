@@ -53,13 +53,17 @@ end
 
 while isRunning do
     if isAdditiveSlotFull() then
+        print("additive off");
         rs.setOutput(additive_side, additive_signal.off);
     else
+        print("additive on");
         rs.setOutput(additive_side, additive_signal.on);
     end
     if isInputSlotFull() then
+        print("input off");
         rs.setOutput(input_side, input_signal.off);
     else
+        print("input on");
         rs.setOutput(input_side, input_signal.on);
     end
     handleEvent(event.pull(WAIT_TIME, "key_up"));
