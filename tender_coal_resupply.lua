@@ -1,0 +1,33 @@
+local component = require("component");
+local sides = require("sides");
+local os = require("os");
+
+local ir_detector = component.ir_augment_detector;
+local rs = component.redstone;
+
+local isRunning = true;
+
+local function detect()
+    local overhead = ir_detector.info();
+    local cargo_percent = overhead.cargo_percent;
+    local name = overhead.name;
+    if not string.find(name, "%stender$") then
+        print("Overhead is not a tender");
+        return false;
+    end
+    if cargo_percent > 90 then
+        print("Overhead is nearly full");
+        return false;
+    end
+end
+if detect()
+    rs.setOutput(sides.west, 1);
+    print("Start resupply coals to ", ir_detector.info().name);
+    while isRunning do
+        isRunning = detect();
+    end
+    rs.setOutput(sides.west, 0);
+    print("Resupply finished, please wait until the conveyor is empty");
+end
+
+
