@@ -20,6 +20,7 @@ local function detect()
         print("Overhead is nearly full");
         return false;
     end
+    return true;
 end
 
 function handleEvent(name, address, char, code, playerName)
@@ -28,7 +29,7 @@ function handleEvent(name, address, char, code, playerName)
     end
 end
 
-if detect()
+if detect() then
     rs.setOutput(sides.west, 1);
     print("Start resupply coals to ", ir_detector.info().name);
     while isRunning do
