@@ -9,9 +9,9 @@ redstone_io_addr["2"] = component.get("fe5685");
 
 local function toggleActive(number, signal)
     proxy = component.proxy(redstone_io_addr[number]);
-    redstone_io_1.setOutput(sides.west, signal);
-    redstone_io_1.setOutput(sides.east, signal);
-    redstone_io_1.setOutput(sides.top, signal);
+    proxy.setOutput(sides.west, signal);
+    proxy.setOutput(sides.east, signal);
+    proxy.setOutput(sides.top, signal);
 end
 
 local args = {...};
