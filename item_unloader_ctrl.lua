@@ -2,9 +2,19 @@ local component = require("component");
 local event = require("event");
 local keyboard = require("keyboard");
 local sides = require("sides");
+local proxy = require("proxy");
 -- 0d411ba is redstone_card
-local redstone_io_1 = component.get("63b63a3d-3924-434b-8a06-82cea5a67097");
-local redstone_io_2 = component.get("fe568506-7199-4b97-97df-78d6848fc0f9");
+local redstone_io_addr = {
+    "1": component.get("63b63a"), 
+    "2": component.get("fe5685")
+};
+
+local function toggleActive(number, signal)
+    proxy = component.proxy(redstone_io_addr);
+    redstone_io_1.setOutput(sides.west, signal);
+    redstone_io_1.setOutput(sides.east, signal);
+    redstone_io_1.setOutput(sides.top, signal);
+end
 
 local args = {...};
 
@@ -12,16 +22,11 @@ local WAIT_TIME = 3 * 60;
 
 local isRunning = true;
 
+toggleActive("1", 2);
+toggleActive("2", 2);
+
 for i, v in ipairs(args) do
-    if v == 1 then
-        redstone_io_1.setOutput(sides.west, 1);
-        redstone_io_1.setOutput(sides.east, 1);
-        redstone_io_1.setOutput(sides.top, 1);
-    elseif v == 2 then
-        redstone_io_2.setOutput(sides.west, 1);
-        redstone_io_2.setOutput(sides.east, 1);
-        redstone_io_2.setOutput(sides.top, 1);
-    end
+    toggleActive(v, 0);
 end
 
 function handleEvent(name, address, char, code, playerName)
@@ -35,13 +40,5 @@ while isRunning do
 end
 
 for i, v in ipairs(args) do
-    if v == 1 then
-        redstone_io_1.setOutput(sides.west, 0);
-        redstone_io_1.setOutput(sides.east, 0);
-        redstone_io_1.setOutput(sides.top, 0);
-    elseif v == 2 then
-        redstone_io_2.setOutput(sides.west, 0);
-        redstone_io_2.setOutput(sides.east, 0);
-        redstone_io_2.setOutput(sides.top, 0);
-    end
+    toggleActive(v, 2);
 end
