@@ -12,12 +12,12 @@ local WAIT_TIME = 3 * 60;
 
 local isRunning = true;
 
-for i, v in pairs(args) do
+for i, v in ipairs(args) do
     if v == 1 then
         redstone_io_1.setOutput(sides.west, 1);
         redstone_io_1.setOutput(sides.east, 1);
         redstone_io_1.setOutput(sides.top, 1);
-    else if v == 2 then
+    elseif v == 2 then
         redstone_io_2.setOutput(sides.west, 1);
         redstone_io_2.setOutput(sides.east, 1);
         redstone_io_2.setOutput(sides.top, 1);
@@ -34,12 +34,12 @@ while isRunning do
     handleEvent(event.pull(WAIT_TIME, "key_up"));
 end
 
-for i, v in pairs(args) do
+for i, v in ipairs(args) do
     if v == 1 then
         redstone_io_1.setOutput(sides.west, 0);
         redstone_io_1.setOutput(sides.east, 0);
         redstone_io_1.setOutput(sides.top, 0);
-    else if v == 2 then
+    elseif v == 2 then
         redstone_io_2.setOutput(sides.west, 0);
         redstone_io_2.setOutput(sides.east, 0);
         redstone_io_2.setOutput(sides.top, 0);
