@@ -26,6 +26,7 @@ local function handleEvent(name, addr, char, code)
 end
 
 local function produce()
+    robot.select(1)
     for i, count in ipairs(slots) do
         robot.select(i);
         for j = 1, count do
