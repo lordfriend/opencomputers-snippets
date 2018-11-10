@@ -19,7 +19,7 @@ for i = 1, totalSlot do
     end
 end
 
-local handleEvent(name, addr, char, code, ...)
+local function handleEvent(name, addr, char, code)
     if code == keyboard.keys.q then
         isRunning = false;
     end
@@ -38,3 +38,5 @@ local function produce()
         end
     end
 end
+
+produce();
