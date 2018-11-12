@@ -4,7 +4,9 @@ local keyboard = require("keyboard");
 local event = require("event");
 
 local ir_detector = component.ir_augment_detector;
-local rs = component.redstone;
+
+local redstone_card_addr = component.get("0d411bba"); 
+local rs = component.proxy(redstone_card_addr);
 
 local isRunning = true;
 
