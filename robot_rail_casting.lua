@@ -77,13 +77,13 @@ local function charge()
     end
     robot.turnLeft();
     robot.forward();
-    robot.turnRight();
-    robot.forward();
-    robot.turnLeft();
-    robot.use(sides.front);
-    robot.turnLeft();
-    robot.forward();
-    robot.turnRight();
+    -- robot.turnRight();
+    -- robot.forward();
+    -- robot.turnLeft();
+    -- robot.use(sides.front);
+    -- robot.turnLeft();
+    -- robot.forward();
+    -- robot.turnRight();
     robot.forward();
     os.sleep(30);
 end
