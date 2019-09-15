@@ -17,7 +17,7 @@ for k, v in pairs(coms_table) do
     coms_count = coms_count + 1;
 end
 
-local emit = {};
+emit = {};
 
 -- mode can be on, off, pulse
 function emit.redstone(idx, mode, side)
@@ -132,7 +132,7 @@ function emit.reverse_sequencial_unit()
     end
 end
 
-function emit.smiutaneously_line(side)
+function emit.simutaneously_line(side)
     -- 0 is the simutaneous line
     emit.redstone(0, 'pulse', side);
 end

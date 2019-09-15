@@ -17,7 +17,7 @@ The following number represents the index of redstone I/O
 
 
 -- we assume we have 7 I/O, 1 simutaneously line I/O
-emit.smiutaneously_line(sides.north); -- put 3 big ball into No. 2, 4, 6
+emit.simutaneously_line(sides.north); -- put 3 big ball into No. 2, 4, 6
 emit.simutaneously_line(sides.south); -- put 1 small ball into No.1 ~ 7 (2 height)
 os.sleep(2);
 
