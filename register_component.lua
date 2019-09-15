@@ -142,9 +142,9 @@ local component = require('component');
 if not err then
     local maxNum = 0;
     for k, v in pairs(myTable) do
-        if (v > maxNum) {
+        if v > maxNum then
             maxNum = v;
-        }
+        end
     end
 
     local component = require('component');
