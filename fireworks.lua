@@ -33,11 +33,11 @@ end
 
 function emit.simutaneously_line(side)
     for i = 0, coms_count - 1 do
-        emit.redstone(coms_array, 'on', side);
+        emit.redstone(i, 'on', side);
     end
     os.sleep(PULSE_INTERVAL);
     for i = 0, coms_count - 1 do
-        emit.redstone(coms_array, 'off', side);
+        emit.redstone(i, 'off', side);
     end
 end
 
@@ -45,7 +45,7 @@ function emit.simutaneously_all()
     for s = 0, 5 do
         if s ~= sides.bottom then
             for i = 0, coms_count - 1 do
-                emit.redstone(coms_array, 'on', s);
+                emit.redstone(i, 'on', s);
             end
         end
     end
@@ -53,7 +53,7 @@ function emit.simutaneously_all()
     for s = 0, 5 do
         if s ~= sides.bottom then
             for i = 0, coms_count - 1 do
-                emit.redstone(coms_array, 'off', s);
+                emit.redstone(i, 'off', s);
             end
         end
     end
@@ -61,7 +61,7 @@ end
 
 function emit.sequencial_line(side)
     for i = 0, coms_count do
-        emit.redstone(coms_array, 'pulse', side);
+        emit.redstone(i, 'pulse', side);
         os.sleep(0.5);
     end
 end
