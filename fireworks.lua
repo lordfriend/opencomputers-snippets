@@ -7,6 +7,7 @@ require('./register_component');
 local coms_table = table.load('all_coms');
 
 local coms_count = 0;
+-- 0 is perserved for simutaneously dispenser
 local coms_array = {};
 
 local PULSE_INTERVAL = 0.1;
@@ -33,30 +34,30 @@ function emit.redstone(idx, mode, side)
     end
 end
 
-function emit.simutaneously_line(side)
+function emit.randomly_line(side)
     local thread_collection = {};
-    for i = 0, coms_count - 1 do
-        local t = thread.create(emit.redstone, i, 'on', side)
+    for i = 1, coms_count - 1 do
+        local t = thread.create(emit.redstone, i, 'on', side);
         thread_collection[i + 1] = t;
         -- emit.redstone(i, 'on', side);
     end
     thread.waitForAll(thread_collection);
     os.sleep(PULSE_INTERVAL);
     thread_collection = {};
-    for i = 0, coms_count - 1 do
-        local t = thread.create(emit.redstone, i, 'off', side)
+    for i = 1, coms_count - 1 do
+        local t = thread.create(emit.redstone, i, 'off', side);
         thread_collection[i + 1] = t;
         -- emit.redstone(i, 'off', side);
     end
     thread.waitForAll(thread_collection);
 end
 
-function emit.simutaneously_all()
+function emit.randomly_all()
     local thread_collection = {};
     local j = 1;
     for s = 0, 5 do
         if s ~= sides.bottom then
-            for i = 0, coms_count - 1 do
+            for i = 1, coms_count - 1 do
                 local t = thread.create(emit.redstone, i, 'on', s);
                 thread_collection[j] = t;
                 -- emit.redstone(i, 'on', s);
@@ -70,7 +71,7 @@ function emit.simutaneously_all()
     j = 1;
     for s = 0, 5 do
         if s ~= sides.bottom then
-            for i = 0, coms_count - 1 do
+            for i = 1, coms_count - 1 do
                 local t = thread.create(emit.redstone, i, 'off', s);
                 thread_collection[j] = t;
                 j = j + 1;
@@ -82,18 +83,21 @@ function emit.simutaneously_all()
 end
 
 function emit.sequencial_line(side)
-    local thread_collection = {};
-    for i = 0, coms_count do
-        local t = thread.create(emit.redstone, i, 'pulse', side);
-        thread_collection[i + 1] = t;
-        -- emit.redstone(i, 'pulse', side);
+    for i = 1, coms_count - 1 do
+        emit.redstone(i, 'pulse', side);
         os.sleep(0.5);
     end
-    thread.waitForAll(thread_collection);
+end
+
+function emit.reverse_sequencial_line(side)
+    for i = coms_count - 1, 1 do
+        emit.redstone(i, 'pulse', side);
+        os.sleep(0.5);
+    end
 end
 
 -- simutenously fire all dispenser within one unit
-function emit.simutaneously_unit(unit_idx)
+function emit.randomly_unit(unit_idx)
     local thread_collection = {};
     local j = 1;
     for s = 0, 5 do
@@ -117,15 +121,18 @@ function emit.simutaneously_unit(unit_idx)
 end
 
 function emit.sequencial_unit()
-    for i = 0, coms_count - 1 do
+    for i = 1, coms_count - 1 do
         emit.simutaneously_unit(i);
     end
 end
 
--- start after 5s
-os.sleep(5);
-emit.simutaneously_line(sides.north);
-os.sleep(2);
-emit.simutaneously_all();
-os.sleep(2);
-emit.sequencial_line(sides.south);
+function emit.reverse_sequencial_unit()
+    for i = coms_count - 1, 1 do
+        emit.simutaneously_unit(i);
+    end
+end
+
+function emit.smiutaneously_line(side)
+    -- 0 is the simutaneous line
+    emit.redstone(0, 'pulse', side);
+end
