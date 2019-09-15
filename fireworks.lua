@@ -1,9 +1,9 @@
 local component = require('component');
 local sides = require('sides');
 
-local com_helper = require('register_component');
+require('./register_component');
 
-local coms_table = com_helper.table.load('all_coms');
+local coms_table = table.load('all_coms');
 
 local coms_count = 0;
 local coms_array = {};
@@ -28,6 +28,7 @@ function emit.redstone(idx, mode, side)
     else
         proxy.setOutput(side, 1);
         os.sleep(PULSE_INTERVAL);
+    end
 end
 
 function emit.simutaneously_line(side)
@@ -65,6 +66,6 @@ function emit.sequencial_line(side)
     end
 end
 
-emit.simutaneously_line(north);
+emit.simutaneously_line(sides.north);
 emit.simutaneously_all();
-emit.sequencial_line(south);
+emit.sequencial_line(sides.south);
