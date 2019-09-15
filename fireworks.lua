@@ -42,7 +42,7 @@ end
 
 function emit.simutaneously_all()
     for s = 0, 5 do
-        if s != sides.bottom then
+        if s ~= sides.bottom then
             for i = 0, coms_count - 1 do
                 emit.redstone(coms_array, 'on', s);
             end
@@ -50,7 +50,7 @@ function emit.simutaneously_all()
     end
     os.sleep(PULSE_INTERVAL);
     for s = 0, 5 do
-        if s != sides.bottom then
+        if s ~= sides.bottom then
             for i = 0, coms_count - 1 do
                 emit.redstone(coms_array, 'off', s);
             end
