@@ -158,4 +158,4 @@ else
     myTable = {};
     myTable[component.redstone.address] = 0;
 end
-table.save('all_coms');
+table.save(myTable, 'all_coms');
