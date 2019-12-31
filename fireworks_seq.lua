@@ -64,12 +64,16 @@ local function stage2()
     end;
 end
 
+function stage3()
+    emit.simutaneously_line(sides.east);
+    os.sleep(0.5);
+    emit.simutaneously_line(sides.top);
+end
+
 stage1();
 stage2();
-
-function stage3()
-    for i = 1, 10 do
-        stage1();
-        stage2();
-    end
-end
+stage1();
+stage3();
+stage1();
+stage3();
+stage2();
