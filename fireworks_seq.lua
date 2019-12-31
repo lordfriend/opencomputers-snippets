@@ -37,7 +37,7 @@ local function stage2()
         emit.redstone(4, 'pulse', sides.west); -- put 1 big ball (trail) into No. 4 east with 3 stack.
         emit.simutaneously_line(sides.south); -- small ball 2 height
         os.sleep(0.2);
-        emit.simutaneously_line(side.west); -- small ball 1 height
+        emit.simutaneously_line(sides.west); -- small ball 1 height
         os.sleep(0.5);
     end
 
