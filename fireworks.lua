@@ -122,13 +122,13 @@ end
 
 function emit.sequencial_unit()
     for i = 1, coms_count - 1 do
-        emit.simutaneously_unit(i);
+        emit.randomly_unit(i);
     end
 end
 
 function emit.reverse_sequencial_unit()
     for i = coms_count - 1, 1 do
-        emit.simutaneously_unit(i);
+        emit.randomly_unit(i);
     end
 end
 
