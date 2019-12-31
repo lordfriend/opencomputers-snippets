@@ -53,7 +53,7 @@ local function stage2()
     for i = 1, 5 do
         emit.reverse_sequencial_line(sides.north); -- big ball with flicker
         os.sleep(0.5);
-        emit.reverse(sequencial_line(sides.west); -- big ball with trail
+        emit.reverse_sequencial_line(sides.west); -- big ball with trail
     end
     os.sleep(1.5);
 
